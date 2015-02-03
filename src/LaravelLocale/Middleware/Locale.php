@@ -1,18 +1,10 @@
 <?php namespace KiaKing\LaravelLocale\Middleware;
 
 use Closure;
-use Illuminate\Foundation\Application;
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\Routing\Middleware;
 
 class Locale implements Middleware {
-
-	/**
-	 * The application implementation.
-	 *
-	 * @var Application
-	 */
-	protected $app;
 
 	/**
 	 * The config implementation.
@@ -22,14 +14,13 @@ class Locale implements Middleware {
 	protected $config;
 
 	/**
-	 * Create a new filter instance.
+	 * Create a new Locale Middleware instance.
 	 *
-	 * @param  Application $app
+	 * @param  Config $config
 	 * @return void
 	 */
-	public function __construct(Application $app, Config $config)
+	public function __construct(Config $config)
 	{
-		$this->app = $app;
 		$this->config = $config;
 	}
 
@@ -43,7 +34,7 @@ class Locale implements Middleware {
 	public function handle($request, Closure $next)
 	{
 		$locale     = $request->segment(1);
-		$default    = $this->app->getLocale();
+		$default    = $this->config->get('app.locale');
 		$localeList = $this->config->get('locale.available_locales');
 
 		if (in_array($locale, $localeList) && ($locale != $default))

@@ -7,16 +7,8 @@ use Illuminate\Contracts\Routing\Registrar as Router;
 
 class LocaleRouterSpec extends ObjectBehavior {
 
-	public function setConfigs(Config $config)
-	{
-		$config->get('locale.available_locales')->willReturn(['ja', 'en', 'fr']);
-		$config->get('app.fallback_locale')->willReturn('ja');
-	}
-
 	public function loopTest(Config $config, Router $router, $method)
 	{
-		$this->setConfigs($config);
-
 		$router->{$method}('home', 'HomeController@index')->shouldBeCalled();
 		$router->{$method}('en/home', 'HomeController@index')->shouldBeCalled();
 		$router->{$method}('fr/home', 'HomeController@index')->shouldBeCalled();
@@ -37,6 +29,9 @@ class LocaleRouterSpec extends ObjectBehavior {
 	function let(Config $config, Router $router)
 	{
 		$this->beConstructedWith($config, $router);
+
+		$config->get('locale.available_locales')->willReturn(['ja', 'en', 'fr']);
+		$config->get('app.fallback_locale')->willReturn('ja');
 	}
 
 	function it_is_initializable()
