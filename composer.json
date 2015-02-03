@@ -1,0 +1,23 @@
+{
+    "name": "kiaking/laravel-locale",
+    "description": "Locale routing and url generating helper for Laravel 5.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kia King Ishii",
+            "email": "kia.king.08@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+    },
+    "autoload": {
+        "psr-4": {
+            "KiaKing\\LaravelLocale\\": "src/Locale/"
+        },
+        "files": [
+            "src/Locale/helpers.php"
+        ]
+    },
+    "minimum-stability": "dev"
+}
