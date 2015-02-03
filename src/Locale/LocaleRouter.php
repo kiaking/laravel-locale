@@ -100,7 +100,7 @@ class LocaleRouter {
 	 */
 	protected function generateRoutes($method, $uri, $action)
 	{
-		$availables = $this->config->get('app.available_locales');
+		$availables = $this->config->get('locale.available_locales');
 		$default = $this->config->get('app.fallback_locale');
 
 		foreach ($availables as $locale)

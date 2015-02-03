@@ -44,7 +44,7 @@ class Locale implements Middleware {
 	{
 		$locale     = $request->segment(1);
 		$default    = $this->app->getLocale();
-		$localeList = $this->config->get('app.available_locales');
+		$localeList = $this->config->get('locale.available_locales');
 
 		if (in_array($locale, $localeList) && ($locale != $default))
 		{

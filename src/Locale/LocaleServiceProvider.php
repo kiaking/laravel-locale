@@ -7,6 +7,18 @@ use KiaKing\LaravelLocale\LocaleUrlGenerator;
 class LocaleServiceProvider extends ServiceProvider {
 
 	/**
+	 * Bootstrap package.
+	 *
+	 * @return void
+	 */
+	public function boot()
+	{
+		$this->publishes([
+			__DIR__ . '/../config/locale.php' => config_path('locale.php'),
+		]);
+	}
+
+	/**
 	 * Register the application services.
 	 *
 	 * @return void
