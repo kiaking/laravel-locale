@@ -39,7 +39,7 @@ class Locale implements Middleware {
 
 		if (in_array($locale, $localeList) && ($locale != $default))
 		{
-			$this->app->setLocale($locale);
+			$this->config->set('app.locale', $locale);
 		}
 
 		return $next($request);
