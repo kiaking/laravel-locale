@@ -1,7 +1,7 @@
 <?php namespace KiaKing\LaravelLocale;
 
 use Illuminate\Contracts\Config\Repository as Config;
-use Illuminate\Routing\Router;
+use Illuminate\Contracts\Routing\Registrar as Router;
 
 class LocaleRouter {
 

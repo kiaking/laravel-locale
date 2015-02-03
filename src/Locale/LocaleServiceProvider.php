@@ -51,7 +51,7 @@ class LocaleServiceProvider extends ServiceProvider {
 	{
 		$this->app->bind('locale.url', function ($app)
 		{
-			return new LocaleUrlGenerator($app['app'], $app['config'], $app['request'], $app['url']);
+			return new LocaleUrlGenerator($app['config'], $app['request'], $app['url']);
 		});
 	}
 

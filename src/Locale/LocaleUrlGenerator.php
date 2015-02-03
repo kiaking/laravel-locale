@@ -1,18 +1,10 @@
 <?php namespace KiaKing\LaravelLocale;
 
-use Illuminate\Foundation\Application;
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Routing\UrlGenerator;
 
 class LocaleUrlGenerator {
-
-	/**
-	 * Instance of Application.
-	 *
-	 * @var Application
-	 */
-	protected $app;
 
 	/**
 	 * Instance of Application.
@@ -38,14 +30,12 @@ class LocaleUrlGenerator {
 	/**
 	 * Create LocaleUrlGenerator instance.
 	 *
-	 * @param Application  $app
 	 * @param Config       $config
 	 * @param Request      $request
 	 * @param UrlGenerator $url
 	 */
-	function __construct(Application $app, Config $config, Request $request, UrlGenerator $url)
+	function __construct(Config $config, Request $request, UrlGenerator $url)
 	{
-		$this->app = $app;
 		$this->config = $config;
 		$this->request = $request;
 		$this->url = $url;
@@ -66,7 +56,7 @@ class LocaleUrlGenerator {
 			return $this->url->to($path, $extra, $secure);
 		}
 
-		$path = $this->app->getLocale() . '/' . $path;
+		$path = $this->config->get('app.locale') . '/' . $path;
 
 		return $this->url->to($path, $extra, $secure);
 	}
@@ -86,7 +76,7 @@ class LocaleUrlGenerator {
 			return $this->url->route($name, $parameters, $absolute);
 		}
 
-		$name = $this->app->getLocale() . '.' . $name;
+		$name = $this->config->get('app.locale') . '.' . $name;
 
 		return $this->url->route($name, $parameters, $absolute);
 	}
@@ -99,7 +89,7 @@ class LocaleUrlGenerator {
 	 */
 	public function change($locale)
 	{
-		if ($locale == $this->app->getLocale())
+		if ($locale == $this->config->get('app.locale'))
 		{
 			return $this->request->fullUrl();
 		}
@@ -128,7 +118,7 @@ class LocaleUrlGenerator {
 	 */
 	protected function isCurrentLocaleDefault()
 	{
-		return ($this->app->getLocale() == $this->config->get('app.fallback_locale'));
+		return ($this->config->get('app.locale') == $this->config->get('app.fallback_locale'));
 	}
 
 }
