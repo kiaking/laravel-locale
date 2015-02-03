@@ -36,7 +36,7 @@ if ( ! function_exists('lroute'))
 
 }
 
-if ( ! function_exists('lswitch'))
+if ( ! function_exists('lchange'))
 {
 
 	/**
@@ -45,7 +45,7 @@ if ( ! function_exists('lswitch'))
 	 * @param  string $locale
 	 * @return string
 	 */
-	function lswitch($locale)
+	function lchange($locale)
 	{
 		return app('locale.url')->change($locale);
 	}
