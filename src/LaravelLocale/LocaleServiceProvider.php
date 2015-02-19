@@ -1,8 +1,6 @@
 <?php namespace KiaKing\LaravelLocale;
 
 use Illuminate\Support\ServiceProvider;
-use KiaKing\LaravelLocale\LocaleRouter;
-use KiaKing\LaravelLocale\LocaleUrlGenerator;
 
 class LocaleServiceProvider extends ServiceProvider {
 
