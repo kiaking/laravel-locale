@@ -34,9 +34,9 @@ class LocaleServiceProvider extends ServiceProvider {
 	 */
 	protected function registerLocaleRouter()
 	{
-		$this->app->bind('locale', function ($app)
+		$this->app->singleton('locale', function ($app)
 		{
-			return new LocaleRouter($app['config'], $app['router']);
+			return $app->make('KiaKing\LaravelLocale\LocaleRouter');
 		});
 	}
 
@@ -47,9 +47,9 @@ class LocaleServiceProvider extends ServiceProvider {
 	 */
 	protected function registerLocaleUrlGenerator()
 	{
-		$this->app->bind('locale.url', function ($app)
+		$this->app->singleton('locale.url', function ($app)
 		{
-			return new LocaleUrlGenerator($app['config'], $app['request'], $app['url']);
+			return $app->make('KiaKing\LaravelLocale\LocaleUrlGenerator');
 		});
 	}
 
