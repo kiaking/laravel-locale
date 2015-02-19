@@ -1,6 +1,7 @@
 {
     "name": "kiaking/laravel-locale",
     "description": "Locale routing and url generating helper for Laravel 5.",
+    "keywords": ["laravel", "laravel-locale"],
     "license": "MIT",
     "authors": [
         {
