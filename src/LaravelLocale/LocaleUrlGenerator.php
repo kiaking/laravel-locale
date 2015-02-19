@@ -7,32 +7,32 @@ use Illuminate\Contracts\Routing\UrlGenerator;
 class LocaleUrlGenerator {
 
 	/**
-	 * Instance of Application.
+	 * Instance of config.
 	 *
-	 * @var Config
+	 * @var \Illuminate\Contracts\Config\Repository
 	 */
 	protected $config;
 
 	/**
-	 * Instance of Request.
+	 * Instance of request.
 	 *
-	 * @var Request
+	 * @var \Illuminate\Http\Request
 	 */
 	protected $request;
 
 	/**
-	 * Instance of UrlGenerator.
+	 * Instance of url generator.
 	 *
-	 * @var UrlGenerator
+	 * @var \Illuminate\Contracts\Routing\UrlGenerator
 	 */
 	protected $url;
 
 	/**
 	 * Create LocaleUrlGenerator instance.
 	 *
-	 * @param Config       $config
-	 * @param Request      $request
-	 * @param UrlGenerator $url
+	 * @param \Illuminate\Contracts\Config\Repository $config
+	 * @param \Illuminate\Http\Request $request
+	 * @param \Illuminate\Contracts\Routing\UrlGenerator $url
 	 */
 	function __construct(Config $config, Request $request, UrlGenerator $url)
 	{
@@ -49,7 +49,7 @@ class LocaleUrlGenerator {
 	 * @param  bool   $secure
 	 * @return string
 	 */
-	public function url($path, $extra = array(), $secure = null)
+	public function url($path, $extra = [], $secure = null)
 	{
 		if ($this->isCurrentLocaleDefault())
 		{
@@ -69,7 +69,7 @@ class LocaleUrlGenerator {
 	 * @param  bool   $absolute
 	 * @return string
 	 */
-	public function route($name, $parameters = array(), $absolute = true)
+	public function route($name, $parameters = [], $absolute = true)
 	{
 		if ($this->isCurrentLocaleDefault())
 		{

@@ -9,14 +9,14 @@ class Locale implements Middleware {
 	/**
 	 * The config implementation.
 	 *
-	 * @var Config
+	 * @var \Illuminate\Contracts\Config\Repository
 	 */
 	protected $config;
 
 	/**
 	 * Create a new Locale Middleware instance.
 	 *
-	 * @param  Config $config
+	 * @param  \Illuminate\Contracts\Config\Repository $config
 	 * @return void
 	 */
 	public function __construct(Config $config)

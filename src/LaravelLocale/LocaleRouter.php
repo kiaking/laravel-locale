@@ -6,23 +6,24 @@ use Illuminate\Contracts\Routing\Registrar as Router;
 class LocaleRouter {
 
 	/**
-	 * Instance of Config.
+	 * Instance of config.
 	 *
-	 * @var Config
+	 * @var \Illuminate\Contracts\Config\Repository
 	 */
 	protected $config;
 
 	/**
-	 * Instance of Router.
+	 * Instance of router.
 	 *
-	 * @var Router
+	 * @var \Illuminate\Contracts\Routing\Registrar
 	 */
 	protected $router;
 
 	/**
 	 * Create Locale instance.
 	 *
-	 * @param Router $router
+	 * @param \Illuminate\Contracts\Config\Repository $config
+	 * @param \Illuminate\Contracts\Routing\Registrar $router
 	 */
 	function __construct(Config $config, Router $router)
 	{
