@@ -1,0 +1,9 @@
+machine:
+    timezone:
+        Asia/Tokyo
+    php:
+        version: 5.6.5
+
+test:
+    post:
+        - phpspec run
