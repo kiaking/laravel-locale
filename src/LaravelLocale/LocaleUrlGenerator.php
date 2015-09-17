@@ -2,8 +2,8 @@
 
 namespace KiaKing\LaravelLocale;
 
-use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\Routing\UrlGenerator;
 
 class LocaleUrlGenerator
@@ -82,49 +82,71 @@ class LocaleUrlGenerator
     }
 
     /**
-     * Get the URL to a different locale.
+     * Generate URL suffixed with switch_locale_to.
      *
      * @param  string $locale
      * @return string
      */
     public function change($locale)
     {
-        if ($locale == $this->config->get('app.locale')) {
-            return $this->request->fullUrl();
-        }
+        $current = $this->request->fullUrl();
+        $prefix = strpos($current, '?') ? '&' : '?';
 
+        return $current.$prefix.'switch_locale_to='.$locale;
+    }
+
+    /**
+     * Get the URL to a different locale.
+     *
+     * @param  string $locale
+     * @return string
+     */
+    public function urlFor($locale)
+    {
         if ($locale == $this->config->get('app.fallback_locale')) {
-            return $this->replaceLocaleString('/');
+            return $this->replaceLocaleString();
         }
 
-        if ( ! $this->isCurrentLocaleDefault()) {
-            return $this->replaceLocaleString("/{$locale}/");
-        }
-
-        $root = $this->request->root();
-
-        return str_replace($root, "{$root}/{$locale}", $this->request->fullUrl());
+        return $this->replaceLocaleString($locale);
     }
 
     /**
      * Replace locale string from uri.
      *
+     * @param  string $uri
+     * @param  string $target
      * @param  string $replace
      * @return string
      */
-    protected function replaceLocaleString($replace)
+    protected function replaceLocaleString($replace = '/')
     {
-        $preg = '';
-        $count = 0;
+        $uri = $this->getFullUri($this->request->fullUrl());
+        $firstSegment = $this->request->segment(1);
 
-        foreach ($this->config->get('locale.available_locales') as $key => $available) {
-            if ($available != $this->config->get('app.fallback_locale')) {
-                $preg = $count > 0 ? $preg.'|'.$available : $available;
-                $count++;
-            }
+        if ( ! in_array($firstSegment, $this->config->get('locale.available_locales'))) {
+            $root = $this->request->root();
+
+            return str_replace($root, "{$root}/{$replace}", $this->getFullUri());
         }
 
-        return preg_replace('/\/('.$preg.')($|\/)/', $replace, $this->request->fullUrl(), 1);
+        $replace = $replace != '/' ? "/{$replace}/" : '/';
+
+        return preg_replace('/\/('.$firstSegment.')(\/)?/', $replace, $uri, 1);
+    }
+
+    /**
+     * Get full uri but remove switch_locale_to if it's present.
+     *
+     * @param  string $uri
+     * @return string
+     */
+    protected function getFullUri()
+    {
+        if ( ! $this->request->switch_locale_to) {
+            return $this->request->fullUrl();
+        }
+
+        return preg_replace('/(\?|&)switch_locale_to=.+?(?:(?!&).)/', '', $this->request->fullUrl());
     }
 
     /**

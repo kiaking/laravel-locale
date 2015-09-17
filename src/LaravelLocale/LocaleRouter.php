@@ -107,11 +107,6 @@ class LocaleRouter
         $default = $this->config->get('app.fallback_locale');
 
         foreach ($availables as $locale) {
-            if ($locale == $default) {
-                $this->router->{$method}($uri, $action);
-                continue;
-            }
-
             $localedUri = $locale . '/' . $uri;
 
             if ( ! isset($action['as'])) {
@@ -125,5 +120,7 @@ class LocaleRouter
 
             $this->router->{$method}($localedUri, $localedAction);
         }
+
+        $this->router->{$method}($uri, $action);
     }
 }
