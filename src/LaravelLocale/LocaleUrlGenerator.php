@@ -120,7 +120,7 @@ class LocaleUrlGenerator
      */
     protected function replaceLocaleString($replace = '/')
     {
-        $uri = $this->getFullUri($this->request->fullUrl());
+        $uri = $this->getFullUri();
         $firstSegment = $this->request->segment(1);
 
         if ( ! in_array($firstSegment, $this->config->get('locale.available_locales'))) {

@@ -54,37 +54,4 @@ class LocaleUrlGeneratorSpec extends ObjectBehavior
 
         $this->route('home');
     }
-
-    function it_can_change_url_to_same_locale(Config $config, Request $request)
-    {
-        $config->get('app.locale')->willReturn('ja');
-        $request->fullUrl()->willReturn('http://example.com/?query=value');
-
-        $this->change('ja')->shouldReturn('http://example.com/?query=value');
-    }
-
-    function it_can_change_url_to_other_locale_from_default(Config $config, Request $request)
-    {
-        $config->get('app.locale')->willReturn('ja');
-        $request->root()->willReturn('http://example.com');
-        $request->fullUrl()->willReturn('http://example.com/?query=value');
-
-        $this->change('en')->shouldReturn('http://example.com/en/?query=value');
-    }
-
-    function it_can_change_url_to_default_locale_from_non_default_locale(Config $config, Request $request)
-    {
-        $config->get('app.locale')->willReturn('en');
-        $request->fullUrl()->willReturn('http://example.com/en/?query=value');
-
-        $this->change('ja')->shouldReturn('http://example.com/?query=value');
-    }
-
-    function it_can_change_url_to_other_locale_from_non_default_locale(Config $config, Request $request)
-    {
-        $config->get('app.locale')->willReturn('en');
-        $request->fullUrl()->willReturn('http://example.com/en/?query=value');
-
-        $this->change('fr')->shouldReturn('http://example.com/fr/?query=value');
-    }
 }
