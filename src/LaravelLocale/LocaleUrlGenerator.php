@@ -103,35 +103,22 @@ class LocaleUrlGenerator
      */
     public function urlFor($locale)
     {
-        if ($locale == $this->config->get('app.fallback_locale')) {
-            return $this->replaceLocaleString();
-        }
-
-        return $this->replaceLocaleString($locale);
-    }
-
-    /**
-     * Replace locale string from uri.
-     *
-     * @param  string $uri
-     * @param  string $target
-     * @param  string $replace
-     * @return string
-     */
-    protected function replaceLocaleString($replace = '/')
-    {
         $uri = $this->getFullUri();
         $firstSegment = $this->request->segment(1);
 
         if ( ! in_array($firstSegment, $this->config->get('locale.available_locales'))) {
+            if ($firstSegment == $this->config->get('app.fallback_locale')) {
+                return $uri;
+            }
+
             $root = $this->request->root();
 
-            return str_replace($root, "{$root}/{$replace}", $this->getFullUri());
+            return str_replace($root, "{$root}/{$locale}", $uri);
         }
 
-        $replace = $replace != '/' ? "/{$replace}/" : '/';
+        $replace = $locale == $this->config->get('app.fallback_locale') ? '' : "/{$locale}";
 
-        return preg_replace('/\/('.$firstSegment.')(\/)?/', $replace, $uri, 1);
+        return preg_replace('/\/('.$firstSegment.')/', $replace, $uri, 1);
     }
 
     /**

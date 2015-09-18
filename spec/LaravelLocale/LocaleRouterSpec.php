@@ -12,10 +12,14 @@ class LocaleRouterSpec extends ObjectBehavior
     public function loopTest(Config $config, Router $router, $method)
     {
         $router->{$method}('home', 'HomeController@index')->shouldBeCalled();
+        $router->{$method}('ja/home', 'HomeController@index')->shouldBeCalled();
         $router->{$method}('en/home', 'HomeController@index')->shouldBeCalled();
         $router->{$method}('fr/home', 'HomeController@index')->shouldBeCalled();
 
         $router->{$method}('home', ['as' => 'home', 'uses' => 'HomeController@index'])
+               ->shouldBeCalled();
+
+        $router->{$method}('ja/home', ['as' => 'ja.home', 'uses' => 'HomeController@index'])
                ->shouldBeCalled();
 
         $router->{$method}('en/home', ['as' => 'en.home', 'uses' => 'HomeController@index'])

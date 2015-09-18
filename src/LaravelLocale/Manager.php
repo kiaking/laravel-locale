@@ -1,0 +1,165 @@
+<?php
+
+namespace KiaKing\LaravelLocale;
+
+use Illuminate\Http\Request;
+use Illuminate\Contracts\Config\Repository as Config;
+
+class Manager
+{
+    /**
+     * The config implementation.
+     *
+     * @var \Illuminate\Contracts\Config\Repository
+     */
+    protected $config;
+
+    /**
+     * The request implementation.
+     *
+     * @var \Illuminate\Http\Request
+     */
+    protected $request;
+
+    /**
+     * Create a new Locale Middleware instance.
+     *
+     * @param \Illuminate\Contracts\Config\Repository $config
+     * @param \Illuminate\Http\Request $request
+     */
+    public function __construct(Config $config, Request $request)
+    {
+        $this->config = $config;
+        $this->request = $request;
+    }
+
+    /**
+     * Get default locale for application.
+     *
+     * @return string
+     */
+    public function getDefaultLocale()
+    {
+        return $this->config->get('app.fallback_locale');
+    }
+
+    /**
+     * Get list of available locales.
+     *
+     * @return array
+     */
+    public function getAvailableLocales()
+    {
+        return $this->config->get('locale.available_locales');
+    }
+
+    /**
+     * Get locale for uri.
+     *
+     * @return string
+     */
+    public function getUriLocale()
+    {
+        $segment = $this->request->segment(1);
+
+        if ($this->isValidLocale($segment)) {
+            return $segment;
+        }
+
+        return $this->getDefaultLocale();
+    }
+
+    /**
+     * Get user's locale.
+     *
+     * @return string
+     */
+    public function getUserLocale()
+    {
+        if ($this->getCookieLocale()) {
+            return $this->getCookieLocale();
+        }
+
+        if ($this->isValidLocale($this->getBrowserLocale())) {
+            $this->getBrowserLocale();
+        }
+
+        return $this->getDefaultLocale();
+    }
+
+    /**
+     * Get browser locale.
+     *
+     * @return string
+     */
+    public function getBrowserLocale()
+    {
+        return substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+    }
+
+    /**
+     * Get locale stored at cookie.
+     *
+     * @return mixed
+     */
+    public function getCookieLocale()
+    {
+        return $this->request->cookie('locale');
+    }
+
+    /**
+     * Set application locale.
+     *
+     * @param  string $locale
+     * @return void
+     */
+    public function setLocale($locale)
+    {
+        $this->config->set('app.locale', $locale);
+    }
+
+    /**
+     * Set locale to cookie.
+     *
+     * @param  mixed  $response
+     * @param  string $locale
+     * @return \Illuminate\Http\Response
+     */
+    public function setCookieLocale($response, $locale)
+    {
+        return $response->withCookie('locale', $locale, 525600);
+    }
+
+    /**
+     * Check if the given locale is available.
+     *
+     * @param  string $locale
+     * @return boolean
+     */
+    public function isValidLocale($locale)
+    {
+        return in_array($locale, $this->getAvailableLocales());
+    }
+
+    /**
+     * Get switch request locale.
+     *
+     * @return mixed
+     */
+    public function getSwitchRequestLocale()
+    {
+        $locale = $this->localeSwitchRequest();
+
+        return $this->isValidLocale($locale) ? $locale : $this->getUserLocale();
+    }
+
+    /**
+     * Get locale switch request.
+     *
+     * @return mixed
+     */
+    public function localeSwitchRequest()
+    {
+        return $this->request->switch_locale_to;
+    }
+}

@@ -5,17 +5,17 @@ namespace KiaKing\LaravelLocale\Middleware;
 use Closure;
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\Routing\ResponseFactory as Response;
-use Illuminate\Contracts\Routing\Middleware;
+use KiaKing\LaravelLocale\Manager;
 use KiaKing\LaravelLocale\LocaleUrlGenerator as Url;
 
-class Locale implements Middleware
+class Locale
 {
     /**
-     * The config implementation.
+     * The locale manager implementation.
      *
-     * @var \Illuminate\Contracts\Config\Repository
+     * @var \KiaKing\LaravelLocale\Manager
      */
-    protected $config;
+    protected $manager;
 
     /**
      * The response implementation.
@@ -34,14 +34,14 @@ class Locale implements Middleware
     /**
      * Create a new Locale Middleware instance.
      *
-     * @param  \Illuminate\Contracts\Config\Repository $config
+     * @param  \KiaKing\LaravelLocale\Manager $manager
      * @param  \Illuminate\Contracts\Routing\ResponseFactory $response
      * @param  \KiaKing\LaravelLocale\LocaleUrlGenerator $url
      * @return void
      */
-    public function __construct(Config $config, Response $response, Url $url)
+    public function __construct(Manager $manager, Response $response, Url $url)
     {
-        $this->config = $config;
+        $this->manager = $manager;
         $this->response = $response;
         $this->url = $url;
     }
@@ -51,38 +51,50 @@ class Locale implements Middleware
      *
      * @param  \Illuminate\Http\Request $request
      * @param  \Closure $next
+     * @param  bool $autoDetect
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, $autoDetect = false)
     {
-        $locale = $request->segment(1);
-        $default = $this->config->get('app.fallback_locale');
-
-        if (in_array($locale, $this->config->get('locale.available_locales'))) {
-            $this->config->set('app.locale', $locale);
+        // If user requested to change locale, redirect them to proper page.
+        if ($this->manager->localeSwitchRequest()) {
+            return $this->redirect($this->manager->getSwitchrequestLocale(), $autoDetect);
         }
 
-        if ($request->switch_locale_to) {
-            return $this->redirect($request->switch_locale_to);
+        // When auto detection is on and if user's locale and URI locale
+        // doesn't matches redirect them.
+        if ($autoDetect && ($this->manager->getUriLocale() != $this->manager->getUserLocale())) {
+            return $this->redirect($this->manager->getUserLocale(), $autoDetect);
         }
 
-        $userLocale = $request->cookie('locale') ? $request->cookie('locale') : substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+        // If the first segment of URI is same as default locale redirect them.
+        if ($request->segment(1) == $this->manager->getDefaultLocale()) {
+            $locale = $autoDetect ? $this->manager->getUserLocale() : $this->manager->getDefaultLocale();
 
-        if ($userLocale != $this->config->get('app.locale')) {
-            return $this->redirect($userLocale);
+            return $this->redirect($locale, $autoDetect);
         }
 
-        if ($locale == $default) {
-            return $this->response->redirectTo($this->url->urlFor($default));
-        }
+        $this->manager->setLocale($this->manager->getUriLocale());
 
         return $next($request);
     }
 
-    protected function redirect($locale)
+    /**
+     * Redirect to specific locale page and set cookie to remember their
+     * setting.
+     *
+     * @param  string $locale
+     * @param  bool $autoDetect
+     * @return Response
+     */
+    protected function redirect($locale, $autoDetect = false)
     {
-        return $this->response
-            ->redirectTo($this->url->urlFor($locale))
-            ->withCookie('locale', $locale, 525600);
+        $response = $this->response->redirectTo($this->url->urlFor($locale));
+
+        if ($autoDetect) {
+            $response = $this->manager->setCookieLocale($response, $locale);
+        }
+
+        return $response;
     }
 }
