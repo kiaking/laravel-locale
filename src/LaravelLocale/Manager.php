@@ -81,7 +81,7 @@ class Manager
         }
 
         if ($this->isValidLocale($this->getBrowserLocale())) {
-            $this->getBrowserLocale();
+            return $this->getBrowserLocale();
         }
 
         return $this->getDefaultLocale();
