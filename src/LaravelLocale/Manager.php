@@ -94,7 +94,11 @@ class Manager
      */
     public function getBrowserLocale()
     {
-        return substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+        if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+            return substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+        }
+
+        return $this->getUriLocale();
     }
 
     /**
@@ -161,5 +165,25 @@ class Manager
     public function localeSwitchRequest()
     {
         return $this->request->switch_locale_to;
+    }
+
+    /**
+     * Determine if the access is from web crawler.
+     *
+     * @return bool
+     */
+    public function isWebCrawler()
+    {
+        if ( ! isset($_SERVER['HTTP_USER_AGENT'])) {
+            return true;
+        }
+
+        $userAgent = strtolower($_SERVER['HTTP_USER_AGENT']);
+
+        if (preg_match('/google|yahoo|bing/', $userAgent) > 0) {
+            return true;
+        }
+
+        return false;
     }
 }

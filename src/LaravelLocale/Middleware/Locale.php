@@ -61,6 +61,11 @@ class Locale
             return $this->redirect($this->manager->getSwitchrequestLocale(), $autoDetect);
         }
 
+        // If accessing user agent is web crawler then do not auto detect.
+        if ($autoDetect && $this->manager->isWebCrawler()) {
+            $autoDetect = false;
+        }
+
         // When auto detection is on and if user's locale and URI locale
         // doesn't matches redirect them.
         if ($autoDetect && ($this->manager->getUriLocale() != $this->manager->getUserLocale())) {
