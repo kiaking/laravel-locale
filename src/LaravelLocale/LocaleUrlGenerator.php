@@ -107,7 +107,7 @@ class LocaleUrlGenerator
         $firstSegment = $this->request->segment(1);
 
         if ( ! in_array($firstSegment, $this->config->get('locale.available_locales'))) {
-            if ($firstSegment == $this->config->get('app.fallback_locale')) {
+            if ($locale == $this->config->get('app.fallback_locale')) {
                 return $uri;
             }
 

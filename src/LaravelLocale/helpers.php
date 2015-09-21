@@ -45,3 +45,17 @@ if ( ! function_exists('lchange'))
         return app('locale.url')->change($locale);
     }
 }
+
+if ( ! function_exists('lurlFor'))
+{
+    /**
+     * Get the URL to a different locale.
+     *
+     * @param  string $locale
+     * @return string
+     */
+    function lurlFor($locale)
+    {
+        return app('locale.url')->urlFor($locale);
+    }
+}
