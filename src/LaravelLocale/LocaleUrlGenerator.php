@@ -53,6 +53,11 @@ class LocaleUrlGenerator
      */
     public function url($path, $extra = [], $secure = null)
     {
+        // Do not modify path if it starts with `http`.
+        if (preg_match('/^http/', $path)) {
+            return $this->url->to($path, $extra, $secure);
+        }
+
         if ($this->isCurrentLocaleDefault()) {
             return $this->url->to($path, $extra, $secure);
         }
