@@ -70,6 +70,24 @@ class Manager
     }
 
     /**
+     * Return requested uri without locale.
+     *
+     * @return string
+     */
+    public function getUriWithoutLocale()
+    {
+        $current = $this->getUriLocale();
+        $default = $this->getDefaultLocale();
+        $path = $this->request->path();
+
+        if ($current == $default) {
+            return $path;
+        }
+
+        return preg_replace('/'.$current.'\/?/', '', $path);
+    }
+
+    /**
      * Get user's locale.
      *
      * @return string
