@@ -2,11 +2,11 @@
 
 namespace spec\KiaKing\LaravelLocale;
 
-use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Illuminate\Contracts\Config\Repository as Config;
+use PhpSpec\ObjectBehavior;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Routing\UrlGenerator;
+use Illuminate\Contracts\Config\Repository as Config;
 
 class LocaleUrlGeneratorSpec extends ObjectBehavior
 {

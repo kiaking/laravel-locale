@@ -21,9 +21,9 @@ if ( ! function_exists('lroute'))
     /**
      * Get the URL to a named route.
      *
-     * @param  string $name
+     * @param  string  $name
      * @param  mixed  $parameters
-     * @param  bool   $absolute
+     * @param  bool  $absolute
      * @return string
      */
     function lroute($name, $parameters = array(), $absolute = true)
@@ -35,9 +35,9 @@ if ( ! function_exists('lroute'))
 if ( ! function_exists('lchange'))
 {
     /**
-     * Get the URL to a different locale.
+     * Generate URL suffixed with switch_locale_to.
      *
-     * @param  string $locale
+     * @param  string  $locale
      * @return string
      */
     function lchange($locale)
@@ -51,7 +51,7 @@ if ( ! function_exists('lurlFor'))
     /**
      * Get the URL to a different locale.
      *
-     * @param  string $locale
+     * @param  string  $locale
      * @return string
      */
     function lurlFor($locale)

@@ -34,9 +34,9 @@ class Locale
     /**
      * Create a new Locale Middleware instance.
      *
-     * @param  \KiaKing\LaravelLocale\Manager $manager
-     * @param  \Illuminate\Contracts\Routing\ResponseFactory $response
-     * @param  \KiaKing\LaravelLocale\LocaleUrlGenerator $url
+     * @param  \KiaKing\LaravelLocale\Manager  $manager
+     * @param  \Illuminate\Contracts\Routing\ResponseFactory  $response
+     * @param  \KiaKing\LaravelLocale\LocaleUrlGenerator  $url
      * @return void
      */
     public function __construct(Manager $manager, Response $response, Url $url)
@@ -49,9 +49,9 @@ class Locale
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
-     * @param  bool $autoDetect
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @param  bool  $autoDetect
      * @return mixed
      */
     public function handle($request, Closure $next, $autoDetect = false)
@@ -88,8 +88,8 @@ class Locale
      * Redirect to specific locale page and set cookie to remember their
      * setting.
      *
-     * @param  string $locale
-     * @param  bool $autoDetect
+     * @param  string  $locale
+     * @param  bool  $autoDetect
      * @return Response
      */
     protected function redirect($locale, $autoDetect = false)

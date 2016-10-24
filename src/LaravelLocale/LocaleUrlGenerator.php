@@ -3,8 +3,8 @@
 namespace KiaKing\LaravelLocale;
 
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\Routing\UrlGenerator;
+use Illuminate\Contracts\Config\Repository as Config;
 
 class LocaleUrlGenerator
 {
@@ -32,9 +32,10 @@ class LocaleUrlGenerator
     /**
      * Create LocaleUrlGenerator instance.
      *
-     * @param \Illuminate\Contracts\Config\Repository $config
-     * @param \Illuminate\Http\Request $request
-     * @param \Illuminate\Contracts\Routing\UrlGenerator $url
+     * @param  \Illuminate\Contracts\Config\Repository  $config
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Contracts\Routing\UrlGenerator  $url
+     * @return void
      */
     function __construct(Config $config, Request $request, UrlGenerator $url)
     {
@@ -46,9 +47,9 @@ class LocaleUrlGenerator
     /**
      * Generate a absolute URL to the given path.
      *
-     * @param  string $path
+     * @param  string  $path
      * @param  mixed  $extra
-     * @param  bool   $secure
+     * @param  bool  $secure
      * @return string
      */
     public function url($path, $extra = [], $secure = null)
@@ -70,9 +71,9 @@ class LocaleUrlGenerator
     /**
      * Get the URL to a named route.
      *
-     * @param  string $name
+     * @param  string  $name
      * @param  mixed  $parameters
-     * @param  bool   $absolute
+     * @param  bool  $absolute
      * @return string
      */
     public function route($name, $parameters = [], $absolute = true)
@@ -89,7 +90,7 @@ class LocaleUrlGenerator
     /**
      * Generate URL suffixed with switch_locale_to.
      *
-     * @param  string $locale
+     * @param  string  $locale
      * @return string
      */
     public function change($locale)
@@ -103,7 +104,7 @@ class LocaleUrlGenerator
     /**
      * Get the URL to a different locale.
      *
-     * @param  string $locale
+     * @param  string  $locale
      * @return string
      */
     public function urlFor($locale)
@@ -129,7 +130,7 @@ class LocaleUrlGenerator
     /**
      * Get full uri but remove switch_locale_to if it's present.
      *
-     * @param  string $uri
+     * @param  string  $uri
      * @return string
      */
     protected function getFullUri()

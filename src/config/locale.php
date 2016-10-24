@@ -16,6 +16,7 @@ return [
     |
     |   - http://example.com/posts
     |   - http://example.com/en/posts
+    |   - http://example.com/ja/posts
     |
     | Remember that the locale specified at "app.fallback_locale" will be used
     | as default locale which will not show up in the URL (ust like above

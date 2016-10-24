@@ -24,8 +24,9 @@ class Manager
     /**
      * Create a new Locale Middleware instance.
      *
-     * @param \Illuminate\Contracts\Config\Repository $config
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Contracts\Config\Repository  $config
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
      */
     public function __construct(Config $config, Request $request)
     {
@@ -132,7 +133,7 @@ class Manager
     /**
      * Set application locale.
      *
-     * @param  string $locale
+     * @param  string  $locale
      * @return void
      */
     public function setLocale($locale)
@@ -144,7 +145,7 @@ class Manager
      * Set locale to cookie.
      *
      * @param  mixed  $response
-     * @param  string $locale
+     * @param  string  $locale
      * @return \Illuminate\Http\Response
      */
     public function setCookieLocale($response, $locale)
@@ -155,7 +156,7 @@ class Manager
     /**
      * Check if the given locale is available.
      *
-     * @param  string $locale
+     * @param  string  $locale
      * @return boolean
      */
     public function isValidLocale($locale)

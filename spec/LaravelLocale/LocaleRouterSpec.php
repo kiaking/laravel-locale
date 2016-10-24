@@ -2,8 +2,8 @@
 
 namespace spec\KiaKing\LaravelLocale;
 
-use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use PhpSpec\ObjectBehavior;
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\Routing\Registrar as Router;
 

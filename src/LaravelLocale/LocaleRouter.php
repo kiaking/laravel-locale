@@ -24,8 +24,9 @@ class LocaleRouter
     /**
      * Create Locale instance.
      *
-     * @param \Illuminate\Contracts\Config\Repository $config
-     * @param \Illuminate\Contracts\Routing\Registrar $router
+     * @param  \Illuminate\Contracts\Config\Repository  $config
+     * @param  \Illuminate\Contracts\Routing\Registrar  $router
+     * @return void
      */
     function __construct(Config $config, Router $router)
     {
@@ -36,8 +37,8 @@ class LocaleRouter
     /**
      * Generate GET method routing with locale support.
      *
-     * @param  string       $uri
-     * @param  string|array $action
+     * @param  string  $uri
+     * @param  string|array  $action
      * @return void
      */
     public function get($uri, $action)
@@ -48,8 +49,8 @@ class LocaleRouter
     /**
      * Generate POST method routing with locale support.
      *
-     * @param  string       $uri
-     * @param  string|array $action
+     * @param  string  $uri
+     * @param  string|array  $action
      * @return void
      */
     public function post($uri, $action)
@@ -60,8 +61,8 @@ class LocaleRouter
     /**
      * Generate PUT method routing with locale support.
      *
-     * @param  string       $uri
-     * @param  string|array $action
+     * @param  string  $uri
+     * @param  string|array  $action
      * @return void
      */
     public function put($uri, $action)
@@ -72,8 +73,8 @@ class LocaleRouter
     /**
      * Generate PATCH method routing with locale support.
      *
-     * @param  string       $uri
-     * @param  string|array $action
+     * @param  string  $uri
+     * @param  string|array  $action
      * @return void
      */
     public function patch($uri, $action)
@@ -84,8 +85,8 @@ class LocaleRouter
     /**
      * Generate DELETE method routing with locale support.
      *
-     * @param  string       $uri
-     * @param  string|array $action
+     * @param  string  $uri
+     * @param  string|array  $action
      * @return void
      */
     public function delete($uri, $action)
@@ -96,9 +97,9 @@ class LocaleRouter
     /**
      * Generate routes.
      *
-     * @param  string       $method
-     * @param  string       $uri
-     * @param  string|array $action
+     * @param  string  $method
+     * @param  string  $uri
+     * @param  string|array  $action
      * @return void
      */
     protected function generateRoutes($method, $uri, $action)
