@@ -3,10 +3,10 @@
 namespace KiaKing\LaravelLocale\Middleware;
 
 use Closure;
-use Illuminate\Contracts\Config\Repository as Config;
-use Illuminate\Contracts\Routing\ResponseFactory as Response;
 use KiaKing\LaravelLocale\Manager;
 use KiaKing\LaravelLocale\LocaleUrlGenerator as Url;
+use Illuminate\Contracts\Config\Repository as Config;
+use Illuminate\Contracts\Routing\ResponseFactory as Response;
 
 class Locale
 {
