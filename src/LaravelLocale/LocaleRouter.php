@@ -2,6 +2,7 @@
 
 namespace KiaKing\LaravelLocale;
 
+use Closure;
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\Routing\Registrar as Router;
 
@@ -123,5 +124,27 @@ class LocaleRouter
         }
 
         $this->router->{$method}($uri, $action);
+    }
+
+    /**
+     * Create a route group with shared attributes prefixing with locale.
+     *
+     * @param  array  $attributes
+     * @param  Closure  $callback
+     * @return void
+     */
+    public function group(array $attributes, Closure $callback)
+    {
+        $this->router->group($attributes, $callback);
+
+        $availables = $this->config->get('locale.available_locales');
+
+        foreach ($availables as $locale) {
+            $newAttributes = $attributes;
+
+            $newAttributes['prefix'] = isset($attributes['prefix']) ? "$locale/{$attributes['prefix']}" : $locale;
+
+            $this->router->group($newAttributes, $callback);
+        }
     }
 }
