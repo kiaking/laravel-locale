@@ -3,17 +3,16 @@
 namespace KiaKing\LaravelLocale;
 
 use Closure;
-use Illuminate\Contracts\Config\Repository as Config;
-use Illuminate\Contracts\Routing\Registrar as Router;
+use Illuminate\Contracts\Routing\Registrar as LaravelRouter;
 
-class LocaleRouter
+class Router
 {
     /**
-     * Instance of config.
+     * Instance of manager.
      *
-     * @var \Illuminate\Contracts\Config\Repository
+     * @var \KiaKing\LaravelLocale\Manager
      */
-    protected $config;
+    protected $manager;
 
     /**
      * Instance of router.
@@ -25,13 +24,13 @@ class LocaleRouter
     /**
      * Create Locale instance.
      *
-     * @param  \Illuminate\Contracts\Config\Repository  $config
+     * @param  \KiaKing\LaravelLocale\Manager  $manager
      * @param  \Illuminate\Contracts\Routing\Registrar  $router
      * @return void
      */
-    function __construct(Config $config, Router $router)
+    function __construct(Manager $manager, LaravelRouter $router)
     {
-        $this->config = $config;
+        $this->manager = $manager;
         $this->router = $router;
     }
 
@@ -39,7 +38,7 @@ class LocaleRouter
      * Generate GET method routing with locale support.
      *
      * @param  string  $uri
-     * @param  string|array  $action
+     * @param  \Closure|array|string  $action
      * @return void
      */
     public function get($uri, $action)
@@ -51,7 +50,7 @@ class LocaleRouter
      * Generate POST method routing with locale support.
      *
      * @param  string  $uri
-     * @param  string|array  $action
+     * @param  \Closure|array|string  $action
      * @return void
      */
     public function post($uri, $action)
@@ -63,7 +62,7 @@ class LocaleRouter
      * Generate PUT method routing with locale support.
      *
      * @param  string  $uri
-     * @param  string|array  $action
+     * @param  \Closure|array|string  $action
      * @return void
      */
     public function put($uri, $action)
@@ -75,7 +74,7 @@ class LocaleRouter
      * Generate PATCH method routing with locale support.
      *
      * @param  string  $uri
-     * @param  string|array  $action
+     * @param  \Closure|array|string  $action
      * @return void
      */
     public function patch($uri, $action)
@@ -87,7 +86,7 @@ class LocaleRouter
      * Generate DELETE method routing with locale support.
      *
      * @param  string  $uri
-     * @param  string|array  $action
+     * @param  \Closure|array|string  $action
      * @return void
      */
     public function delete($uri, $action)
@@ -100,49 +99,42 @@ class LocaleRouter
      *
      * @param  string  $method
      * @param  string  $uri
-     * @param  string|array  $action
+     * @param  \Closure|array|string  $action
      * @return void
      */
     protected function generateRoutes($method, $uri, $action)
     {
-        $availables = $this->config->get('locale.available_locales');
-        $default = $this->config->get('app.fallback_locale');
+        $this->router->{$method}($uri, $action);
+
+        $availables = $this->manager->getAvailableLocales();
+        $default = $this->manager->getDefaultLocale();
 
         foreach ($availables as $locale) {
-            $localedUri = $locale . '/' . $uri;
+            $localedUri = "{$locale}/{$uri}";
 
-            if ( ! isset($action['as'])) {
-                $this->router->{$method}($localedUri, $action);
-                continue;
-            }
-
-            $localedAction = array_merge(
-                $action, ['as' => $locale . '.' . $action['as']]
-            );
-
-            $this->router->{$method}($localedUri, $localedAction);
+            $this->router->{$method}($localedUri, $action);
         }
-
-        $this->router->{$method}($uri, $action);
     }
 
     /**
      * Create a route group with shared attributes prefixing with locale.
      *
      * @param  array  $attributes
-     * @param  Closure  $callback
+     * @param  \Closure  $callback
      * @return void
      */
     public function group(array $attributes, Closure $callback)
     {
         $this->router->group($attributes, $callback);
 
-        $availables = $this->config->get('locale.available_locales');
+        $availables = $this->manager->getAvailableLocales();
 
         foreach ($availables as $locale) {
             $newAttributes = $attributes;
 
-            $newAttributes['prefix'] = isset($attributes['prefix']) ? "$locale/{$attributes['prefix']}" : $locale;
+            $newAttributes['prefix'] = isset($attributes['prefix'])
+                                     ? "$locale/{$attributes['prefix']}"
+                                     : $locale;
 
             $this->router->group($newAttributes, $callback);
         }

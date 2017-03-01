@@ -2,14 +2,15 @@
 
 namespace KiaKing\LaravelLocale\Facades;
 
+use KiaKing\LaravelLocale\Router;
 use Illuminate\Support\Facades\Facade;
 
-class LocaleRouter extends Facade
+class Route extends Facade
 {
     /**
      * Get the registered name of the component.
      *
      * @return string
      */
-    protected static function getFacadeAccessor() { return 'locale'; }
+    protected static function getFacadeAccessor() { return Router::class; }
 }

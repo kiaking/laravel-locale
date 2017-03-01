@@ -36,4 +36,14 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($result, 'ja');
     }
+
+    /** @test */
+    public function it_sets_locale()
+    {
+        $this->config->shouldReceive('set')
+            ->with('app.locale', 'en')
+            ->once();
+
+        $this->manager->setLocale('en');
+    }
 }

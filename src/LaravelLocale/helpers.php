@@ -12,7 +12,7 @@ if ( ! function_exists('lurl'))
      */
     function lurl($path, $extra = array(), $secure = null)
     {
-        return app('locale.url')->url($path, $extra, $secure);
+        return app(\KiaKing\LaravelLocale\UrlGenerator::class)->url($path, $extra, $secure);
     }
 }
 
@@ -28,7 +28,7 @@ if ( ! function_exists('lroute'))
      */
     function lroute($name, $parameters = array(), $absolute = true)
     {
-        return app('locale.url')->route($name, $parameters, $absolute);
+        return app(\KiaKing\LaravelLocale\UrlGenerator::class)->route($name, $parameters, $absolute);
     }
 }
 
@@ -42,7 +42,7 @@ if ( ! function_exists('lchange'))
      */
     function lchange($locale)
     {
-        return app('locale.url')->change($locale);
+        return app(\KiaKing\LaravelLocale\UrlGenerator::class)->change($locale);
     }
 }
 
@@ -56,6 +56,6 @@ if ( ! function_exists('lurlFor'))
      */
     function lurlFor($locale)
     {
-        return app('locale.url')->urlFor($locale);
+        return app(\KiaKing\LaravelLocale\UrlGenerator::class)->urlFor($locale);
     }
 }

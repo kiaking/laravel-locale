@@ -3,10 +3,10 @@
 namespace KiaKing\LaravelLocale;
 
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Contracts\Config\Repository as Config;
+use Illuminate\Contracts\Routing\UrlGenerator as LaravelUrlGenerator;
 
-class LocaleUrlGenerator
+class UrlGenerator
 {
     /**
      * Instance of config.
@@ -37,7 +37,7 @@ class LocaleUrlGenerator
      * @param  \Illuminate\Contracts\Routing\UrlGenerator  $url
      * @return void
      */
-    function __construct(Config $config, Request $request, UrlGenerator $url)
+    function __construct(Config $config, Request $request, LaravelUrlGenerator $url)
     {
         $this->config = $config;
         $this->request = $request;
@@ -63,7 +63,7 @@ class LocaleUrlGenerator
             return $this->url->to($path, $extra, $secure);
         }
 
-        $path = $this->config->get('app.locale') . '/' . $path;
+        $path = $this->config->get('app.locale').'/'.$path;
 
         return $this->url->to($path, $extra, $secure);
     }

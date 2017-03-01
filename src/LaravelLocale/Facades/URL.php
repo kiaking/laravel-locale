@@ -3,13 +3,14 @@
 namespace KiaKing\LaravelLocale\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use KiaKing\LaravelLocale\UrlGenerator;
 
-class LocaleUrlGenerator extends Facade
+class URL extends Facade
 {
     /**
      * Get the registered name of the component.
      *
      * @return string
      */
-    protected static function getFacadeAccessor() { return 'locale.url'; }
+    protected static function getFacadeAccessor() { return UrlGenerator::class; }
 }
