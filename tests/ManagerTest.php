@@ -1,49 +1,33 @@
 <?php
 
 namespace Tests;
-use Mockery;
-use Illuminate\Http\Request;
+
 use KiaKing\LaravelLocale\Manager;
-use Illuminate\Contracts\Config\Repository as Config;
 
-class ManagerTest extends \PHPUnit_Framework_TestCase
+class ManagerTest extends TestCase
 {
-    public $config;
-    public $request;
-    public $manager;
-
-    public function setup()
+    protected function getEnvironmentSetUp($app)
     {
-        $this->config = Mockery::mock(Config::class);
-        $this->request = Mockery::mock(Request::class);
-        $this->manager = new Manager($this->config, $this->request);
-    }
-
-    public function teardown()
-    {
-        Mockery::close();
+        $app['config']->set('app.fallback_locale', 'en');
     }
 
     /** @test */
     public function it_gets_default_locale_value()
     {
-        $this->config->shouldReceive('get')
-            ->with('app.fallback_locale')
-            ->andReturn('ja')
-            ->once();
+        $manager = \App::make(Manager::class);
 
-        $result = $this->manager->getDefaultLocale();
+        $result = $manager->getDefaultLocale();
 
-        $this->assertEquals($result, 'ja');
+        $this->assertEquals($result, 'en');
     }
 
     /** @test */
     public function it_sets_locale()
     {
-        $this->config->shouldReceive('set')
-            ->with('app.locale', 'en')
-            ->once();
+        $manager = \App::make(Manager::class);
 
-        $this->manager->setLocale('en');
+        $result = $manager->setLocale('ja');
+
+        $this->assertEquals(\App::getLocale(), 'ja');
     }
 }
