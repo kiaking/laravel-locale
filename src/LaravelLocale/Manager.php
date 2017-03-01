@@ -82,7 +82,7 @@ class Manager
     {
         $locale = $this->getShownLocaleInUri($request);
 
-        return $locale ?? $this->getDefaultLocale();
+        return $locale ? $locale : $this->getDefaultLocale();
     }
 
     /**
