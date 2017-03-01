@@ -1,6 +1,6 @@
 {
     "name": "kiaking/laravel-locale",
-    "description": "Locale routing and url generating helper for Laravel 5.",
+    "description": "Cachable multi-locale routing and URL generating helper for Laravel 5.",
     "keywords": ["laravel", "laravel-locale"],
     "license": "MIT",
     "authors": [
@@ -10,13 +10,14 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.6.4",
         "illuminate/contracts": "~5.0",
         "illuminate/http": "~5.0",
         "illuminate/support": "~5.0"
     },
     "require-dev": {
-        "phpspec/phpspec": "~2.1"
+        "mockery/mockery": "0.9.*",
+        "phpunit/phpunit": "~5.7"
     },
     "autoload": {
         "psr-4": {
@@ -26,5 +27,9 @@
             "src/LaravelLocale/helpers.php"
         ]
     },
-    "minimum-stability": "dev"
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    }
 }

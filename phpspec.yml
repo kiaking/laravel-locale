@@ -1,6 +1,0 @@
-suites:
-  main:
-    namespace: KiaKing
-    psr4_prefix: KiaKing
-    src_path: src
-    spec_prefix: spec

@@ -4,4 +4,4 @@ machine:
 
 test:
     post:
-        - ./vendor/bin/phpspec run
+        - ./vendor/bin/phpunit
