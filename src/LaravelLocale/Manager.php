@@ -58,12 +58,11 @@ class Manager
      * Get present locale within URI. It will return null if no valid
      * locale value exists in URL.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return string|null
      */
-    public function getShownLocaleInUri(Request $request)
+    public function getShownLocaleInUri()
     {
-        $segment = $request->segment(1);
+        $segment = $this->request->segment(1);
 
         if ($this->isValidLocale($segment)) {
             return $segment;
@@ -75,12 +74,11 @@ class Manager
     /**
      * Get locale for uri.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return string
      */
-    public function getUriLocale(Request $request)
+    public function getUriLocale()
     {
-        $locale = $this->getShownLocaleInUri($request);
+        $locale = $this->getShownLocaleInUri();
 
         return $locale ? $locale : $this->getDefaultLocale();
     }
