@@ -1,6 +1,6 @@
 # Laravel Locale
 
-[![Circle CI](https://circleci.com/gh/kiaking/laravel-locale.svg?style=shield)](https://circleci.com/gh/kiaking/laravel-locale)
+[![Travis CI](https://travis-ci.org/kiaking/laravel-locale.svg?branch=master)](https://travis-ci.org/kiaking/laravel-locale)
 [![Total Downloads](https://poser.pugx.org/kiaking/laravel-locale/downloads.svg)](https://packagist.org/packages/kiaking/laravel-locale)
 [![Latest Stable Version](https://poser.pugx.org/kiaking/laravel-locale/v/stable.svg)](https://packagist.org/packages/kiaking/laravel-locale)
 [![Latest Unstable Version](https://poser.pugx.org/kiaking/laravel-locale/v/unstable.svg)](https://packagist.org/packages/kiaking/laravel-locale)
